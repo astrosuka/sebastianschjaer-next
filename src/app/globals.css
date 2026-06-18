@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f1eee7;
+  --foreground: #262626;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary: #666;
+  --color-accent: #164ee8;
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body) var(--font-sans);
+
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+:root:has(.no-doc-scroll) {
+  overflow: hidden;
+}
+
+::selection {
+  background-color: var(--color-secondary);
+  color: var(--color-background);
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 1rem;
+  }
+}
