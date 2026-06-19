@@ -11,7 +11,7 @@ export default function MixtapesList({ data }: MixtapesListProps) {
   const { language } = useLanguage()
 
   return (
-    <>
+    <div>
       <div className="mb-8 gap-8 md:columns-2 xl:w-2/3">
         {data?.text && (
           <PortableText
@@ -46,6 +46,6 @@ export default function MixtapesList({ data }: MixtapesListProps) {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   )
 }
