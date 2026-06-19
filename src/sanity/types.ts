@@ -293,8 +293,20 @@ export type AllSanitySchemaTypes = BlockContent | SanityImageAssetReference | Ph
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: DIRECTOR_QUERY
-// Query: *[_type == "director"] | order(date desc){    _id,    title,    titleEng,    "slug": slug.current,    date,    premiere,    duration,    credits[]{      _key,      role,      roleEng,      name,    },    synopsis,    synopsisEng,    image{      "dimensions": asset->metadata.dimensions,      asset->{        _id,        url      }    }  }
+// Query: *[_type == "director"] | order(date desc){    _id,    title,    titleEng,    "slug": slug.current,    date,    premiere,  }
 export type DIRECTOR_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  titleEng: string | null;
+  slug: string | null;
+  date: string | null;
+  premiere: string | null;
+}>;
+
+// Source: ../sebastianschjaer-next/src/sanity/queries.ts
+// Variable: DIRECTOR_BY_SLUG_QUERY
+// Query: *[_type == "director" && slug.current == $slug][0]{    _id,    title,    titleEng,    "slug": slug.current,    date,    premiere,    duration,    credits[]{      _key,      role,      roleEng,      name,    },    synopsis,    synopsisEng,    image{      "dimensions": asset->metadata.dimensions,      asset->{        _id,        url      }    }  }
+export type DIRECTOR_BY_SLUG_QUERY_RESULT = {
   _id: string;
   title: string | null;
   titleEng: string | null;
@@ -317,12 +329,12 @@ export type DIRECTOR_QUERY_RESULT = Array<{
       url: string | null;
     } | null;
   } | null;
-}>;
+} | null;
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: EDITOR_QUERY
-// Query: *[_type == "editor"]{    title,    features[]{      _key,      title,      titleEng,      director,       detail,      detailEng,      year,      link    },    shorts[]{      _key,      title,      titleEng,      director,       detail,      detailEng,      year,      link    },    trailers[]{      _key,      title,      titleEng,      link    }  }
-export type EDITOR_QUERY_RESULT = Array<{
+// Query: *[_type == "editor"][0]{    title,    features[]{      _key,      title,      titleEng,      director,       detail,      detailEng,      year,      link    },    shorts[]{      _key,      title,      titleEng,      director,       detail,      detailEng,      year,      link    },    trailers[]{      _key,      title,      titleEng,      link    }  }
+export type EDITOR_QUERY_RESULT = {
   title: string | null;
   features: Array<{
     _key: string;
@@ -350,12 +362,12 @@ export type EDITOR_QUERY_RESULT = Array<{
     titleEng: string | null;
     link: string | null;
   }> | null;
-}>;
+} | null;
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: MIXTAPES_QUERY
-// Query: *[_type == "mixtapes"]{    _id,    text,    textEng,    mixtapes[]{      _key,      title,      titleEng,      link    }  }
-export type MIXTAPES_QUERY_RESULT = Array<{
+// Query: *[_type == "mixtapes"][0]{    _id,    text,    textEng,    mixtapes[]{      _key,      title,      titleEng,      link    }  }
+export type MIXTAPES_QUERY_RESULT = {
   _id: string;
   text: BlockContent | null;
   textEng: BlockContent | null;
@@ -365,7 +377,7 @@ export type MIXTAPES_QUERY_RESULT = Array<{
     titleEng: string | null;
     link: string | null;
   }> | null;
-}>;
+} | null;
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: PHOTOS_QUERY
@@ -405,9 +417,10 @@ export type INFO_QUERY_RESULT = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"director\"] | order(date desc){\n    _id,\n    title,\n    titleEng,\n    \"slug\": slug.current,\n    date,\n    premiere,\n    duration,\n    credits[]{\n      _key,\n      role,\n      roleEng,\n      name,\n    },\n    synopsis,\n    synopsisEng,\n    image{\n      \"dimensions\": asset->metadata.dimensions,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": DIRECTOR_QUERY_RESULT;
-    "*[_type == \"editor\"]{\n    title,\n    features[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    shorts[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    trailers[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": EDITOR_QUERY_RESULT;
-    "*[_type == \"mixtapes\"]{\n    _id,\n    text,\n    textEng,\n    mixtapes[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": MIXTAPES_QUERY_RESULT;
+    "*[_type == \"director\"] | order(date desc){\n    _id,\n    title,\n    titleEng,\n    \"slug\": slug.current,\n    date,\n    premiere,\n  }": DIRECTOR_QUERY_RESULT;
+    "*[_type == \"director\" && slug.current == $slug][0]{\n    _id,\n    title,\n    titleEng,\n    \"slug\": slug.current,\n    date,\n    premiere,\n    duration,\n    credits[]{\n      _key,\n      role,\n      roleEng,\n      name,\n    },\n    synopsis,\n    synopsisEng,\n    image{\n      \"dimensions\": asset->metadata.dimensions,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": DIRECTOR_BY_SLUG_QUERY_RESULT;
+    "*[_type == \"editor\"][0]{\n    title,\n    features[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    shorts[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    trailers[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": EDITOR_QUERY_RESULT;
+    "*[_type == \"mixtapes\"][0]{\n    _id,\n    text,\n    textEng,\n    mixtapes[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": MIXTAPES_QUERY_RESULT;
     "*[_type == \"photos\"]{\n    _id,\n    photos[]{\n      \"dimensions\": asset->metadata.dimensions,\n      _key,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": PHOTOS_QUERY_RESULT;
     "*[_type == \"info\"][0]{\n    _id,\n    name,\n    bio,\n    bioEng,\n    mail,\n    instagram,\n    vimeoId,\n    coverVideo{\n      asset->{\n        _id,\n        url\n      }\n    },\n    }": INFO_QUERY_RESULT;
   }

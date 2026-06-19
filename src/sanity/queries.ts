@@ -8,6 +8,17 @@ export const DIRECTOR_QUERY = defineQuery(
     "slug": slug.current,
     date,
     premiere,
+  }`
+)
+
+export const DIRECTOR_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "director" && slug.current == $slug][0]{
+    _id,
+    title,
+    titleEng,
+    "slug": slug.current,
+    date,
+    premiere,
     duration,
     credits[]{
       _key,
@@ -28,7 +39,7 @@ export const DIRECTOR_QUERY = defineQuery(
 )
 
 export const EDITOR_QUERY = defineQuery(
-  `*[_type == "editor"]{
+  `*[_type == "editor"][0]{
     title,
     features[]{
       _key,
@@ -60,7 +71,7 @@ export const EDITOR_QUERY = defineQuery(
 )
 
 export const MIXTAPES_QUERY = defineQuery(
-  `*[_type == "mixtapes"]{
+  `*[_type == "mixtapes"][0]{
     _id,
     text,
     textEng,
