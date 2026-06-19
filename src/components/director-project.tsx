@@ -1,14 +1,17 @@
 "use client"
+import { useState } from "react"
 import { DIRECTOR_BY_SLUG_QUERY_RESULT } from "@/sanity/types"
 import { useLanguage } from "@/context/LanguageContext"
-import { Image } from "next-sanity/image"
 import { urlFor } from "@/sanity/lib/image"
+import Lightbox from "./lightbox"
 
 type DirectorProjectProps = {
   data: DIRECTOR_BY_SLUG_QUERY_RESULT
 }
 export default function DirectorProject({ data }: DirectorProjectProps) {
   const { language } = useLanguage()
+  const [showLightbox, setShowLightbox] = useState(false)
+
   return (
     <>
       <div className="grid gap-8 lg:grid-cols-2">
@@ -74,14 +77,44 @@ export default function DirectorProject({ data }: DirectorProjectProps) {
         </div>
 
         {data?.image && (
-          <Image
-            src={urlFor(data.image).url()}
-            alt={`${data.titleEng} poster`}
-            width={600}
-            height={800}
-          />
+          <div
+            className="mx-auto max-h-[calc(100vh-11rem)] max-w-full overflow-hidden rounded-sm"
+            style={{
+              backgroundImage: `url(${urlFor(data.image).height(10).blur(30).format("webp").url()})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              aspectRatio: `${data.image.dimensions?.aspectRatio}/1`,
+            }}
+            onClick={() => {
+              if (window.matchMedia("(min-width: 768px)").matches) {
+                setShowLightbox(true)
+              }
+            }}
+          >
+            <img
+              src={urlFor(data.image).height(1080).format("webp").url()}
+              alt={`${data.titleEng} poster`}
+              className="max-h-full max-w-full md:cursor-pointer lg:mx-auto"
+              style={{
+                opacity: "0",
+                transition: "opacity 0.5s",
+              }}
+              onLoad={(e) => {
+                e.currentTarget.style.opacity = "1"
+              }}
+            />
+          </div>
         )}
       </div>
+
+      {showLightbox && data?.image && (
+        <Lightbox
+          photos={[data.image]}
+          currentIndex={0}
+          onClose={() => setShowLightbox(false)}
+          singleImage
+        />
+      )}
     </>
   )
 }
