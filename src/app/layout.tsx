@@ -42,8 +42,9 @@ export default function RootLayout({
     >
       <body className="flex min-h-screen flex-col gap-2 px-4 transition-all md:gap-6 md:px-6">
         <LanguageProvider>
+          <MouseTrailLazy />
+          <div className="bg-background shadow-border fixed top-0 left-0 z-10 h-21 w-full md:hidden" />
           <Header />
-
           <main className="flex grow grid-cols-5 flex-col items-stretch gap-2 md:grid md:gap-16">
             <div className="sticky top-15 z-10 col-span-1 self-start md:top-21">
               <Menu />
@@ -55,7 +56,6 @@ export default function RootLayout({
           <Footer>
             <Contact />
           </Footer>
-          <MouseTrailLazy />
         </LanguageProvider>
       </body>
     </html>
