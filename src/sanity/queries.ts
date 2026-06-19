@@ -85,7 +85,7 @@ export const MIXTAPES_QUERY = defineQuery(
 )
 
 export const PHOTOS_QUERY = defineQuery(
-  `*[_type == "photos"]{
+  `*[_type == "photos"][0]{
     _id,
     photos[]{
       "dimensions": asset->metadata.dimensions,

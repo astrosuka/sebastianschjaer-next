@@ -381,8 +381,8 @@ export type MIXTAPES_QUERY_RESULT = {
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: PHOTOS_QUERY
-// Query: *[_type == "photos"]{    _id,    photos[]{      "dimensions": asset->metadata.dimensions,      _key,      asset->{        _id,        url      }    }  }
-export type PHOTOS_QUERY_RESULT = Array<{
+// Query: *[_type == "photos"][0]{    _id,    photos[]{      "dimensions": asset->metadata.dimensions,      _key,      asset->{        _id,        url      }    }  }
+export type PHOTOS_QUERY_RESULT = {
   _id: string;
   photos: Array<{
     dimensions: SanityImageDimensions | null;
@@ -392,7 +392,7 @@ export type PHOTOS_QUERY_RESULT = Array<{
       url: string | null;
     } | null;
   }> | null;
-}>;
+} | null;
 
 // Source: ../sebastianschjaer-next/src/sanity/queries.ts
 // Variable: INFO_QUERY
@@ -421,7 +421,7 @@ declare module "@sanity/client" {
     "*[_type == \"director\" && slug.current == $slug][0]{\n    _id,\n    title,\n    titleEng,\n    \"slug\": slug.current,\n    date,\n    premiere,\n    duration,\n    credits[]{\n      _key,\n      role,\n      roleEng,\n      name,\n    },\n    synopsis,\n    synopsisEng,\n    image{\n      \"dimensions\": asset->metadata.dimensions,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": DIRECTOR_BY_SLUG_QUERY_RESULT;
     "*[_type == \"editor\"][0]{\n    title,\n    features[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    shorts[]{\n      _key,\n      title,\n      titleEng,\n      director, \n      detail,\n      detailEng,\n      year,\n      link\n    },\n    trailers[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": EDITOR_QUERY_RESULT;
     "*[_type == \"mixtapes\"][0]{\n    _id,\n    text,\n    textEng,\n    mixtapes[]{\n      _key,\n      title,\n      titleEng,\n      link\n    }\n  }": MIXTAPES_QUERY_RESULT;
-    "*[_type == \"photos\"]{\n    _id,\n    photos[]{\n      \"dimensions\": asset->metadata.dimensions,\n      _key,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": PHOTOS_QUERY_RESULT;
+    "*[_type == \"photos\"][0]{\n    _id,\n    photos[]{\n      \"dimensions\": asset->metadata.dimensions,\n      _key,\n      asset->{\n        _id,\n        url\n      }\n    }\n  }": PHOTOS_QUERY_RESULT;
     "*[_type == \"info\"][0]{\n    _id,\n    name,\n    bio,\n    bioEng,\n    mail,\n    instagram,\n    vimeoId,\n    coverVideo{\n      asset->{\n        _id,\n        url\n      }\n    },\n    }": INFO_QUERY_RESULT;
   }
 }

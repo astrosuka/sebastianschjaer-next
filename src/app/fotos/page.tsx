@@ -1,7 +1,9 @@
-export default function Fotos() {
-  return (
-    <>
-      <h1>fotos</h1>
-    </>
-  )
+import ImageGallery from "@/components/image-gallery"
+import { client } from "@/sanity/client"
+import { PHOTOS_QUERY } from "@/sanity/queries"
+
+export default async function Fotos() {
+  const data = await client.fetch(PHOTOS_QUERY)
+
+  return <ImageGallery data={data} />
 }
