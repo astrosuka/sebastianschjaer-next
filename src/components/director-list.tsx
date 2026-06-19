@@ -13,7 +13,10 @@ export default function DirectorList({ data }: DirectorListProps) {
     <ul className="flex flex-col items-start gap-2">
       {data.map((item) => (
         <li className="group" key={item._id}>
-          <Link href={`/director/${item.slug}`}>
+          <Link
+            href={`/director/${item.slug}`}
+            className="items-start text-xl xl:text-2xl"
+          >
             <span className="border-text group-hover:border-accent group-hover:bg-accent group-hover:text-background rounded-full border px-2 md:px-4">
               {language === "es" ? item.title : item.titleEng || item.title}
             </span>
