@@ -3,14 +3,17 @@
 import { motion } from "motion/react"
 import { useLanguage } from "@/context/LanguageContext"
 import { useState, useRef } from "react"
-import type { PHOTOS_QUERY_RESULT } from "@/sanity/types"
+import type { SanityImageDimensions } from "@/sanity/types"
 import { urlFor } from "@/sanity/lib/image"
 import useMousePosition from "@/hooks/useMousePosition"
 
-type PhotoItem = NonNullable<NonNullable<PHOTOS_QUERY_RESULT>["photos"]>[number]
+export type LightboxImage = {
+  dimensions: SanityImageDimensions | null
+  asset: { _id: string; url: string | null } | null
+}
 
 type LightboxProps = {
-  photos: PhotoItem[]
+  photos: LightboxImage[]
   currentIndex: number
   onClose: () => void
   singleImage?: boolean
