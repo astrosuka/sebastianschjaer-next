@@ -6,6 +6,6 @@ export default async function Home() {
   const info = await client.fetch(INFO_QUERY)
 
   return (
-    <main>{info?.coverVideo && <VideoEmbed data={info?.coverVideo} />}</main>
+    <main className="h-full">{info?.coverVideo && <VideoEmbed data={info?.coverVideo} />}</main>
   )
 }
