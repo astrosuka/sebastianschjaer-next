@@ -1,9 +1,14 @@
 import type { Metadata } from "next"
 import { client } from "@/sanity/client"
-import { DIRECTOR_BY_SLUG_QUERY } from "@/sanity/queries"
+import { DIRECTOR_QUERY, DIRECTOR_BY_SLUG_QUERY } from "@/sanity/queries"
 import DirectorProject from "@/components/director-project"
 import PageTransition from "@/components/page-transition"
 import { notFound } from "next/navigation"
+
+export async function generateStaticParams() {
+  const directors = await client.fetch(DIRECTOR_QUERY)
+  return directors.map((d) => ({ slug: d.slug }))
+}
 
 export async function generateMetadata({
   params,
@@ -37,7 +42,7 @@ export default async function DirectorSlugPage({
 
   return (
     <PageTransition>
-      <DirectorProject data={data} />{" "}
+      <DirectorProject data={data} />
     </PageTransition>
   )
 }
