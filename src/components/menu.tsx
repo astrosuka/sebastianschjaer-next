@@ -7,95 +7,60 @@ export default function Menu() {
   const { language } = useLanguage()
   const pathname = usePathname()
 
+  const sections = [
+    {
+      tag: "director",
+      tagEng: "director",
+      route: "director",
+    },
+
+    {
+      tag: "editor",
+      tagEng: "editor",
+      route: "editor",
+    },
+
+    {
+      tag: "mixtapes",
+      tagEng: "mixtapes",
+      route: "mixtapes",
+    },
+    {
+      tag: "fotos",
+      tagEng: "photos",
+      route: "fotos",
+    },
+    {
+      tag: "bio",
+      tagEng: "bio",
+      route: "bio",
+    },
+  ]
+
   return (
     <nav className="sticky top-0">
       <ul className="font-display flex flex-wrap items-start text-sm uppercase md:flex-col md:gap-2 md:text-base">
-        <Link
-          className={
-            "hover:text-accent font-bold" +
-            (pathname.startsWith("/director")
-              ? " text-accent"
-              : " text-secondary")
-          }
-          href="/director"
-        >
-          <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
-            <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
-              Director
+        {sections.map((section) => (
+          <Link
+            key={section.tag}
+            className={
+              "hover:text-accent font-bold" +
+              (pathname.startsWith(`/${section.route}`)
+                ? " text-accent"
+                : " text-secondary")
+            }
+            href={`/${section.route}`}
+          >
+            <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
+              <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
+                {language === "en" ? section.tagEng : section.tag}
+              </div>
+              {pathname.startsWith(`/${section.route}`) && (
+                <div className="bg-accent z-10 size-2 rounded-full"></div>
+              )}
             </div>
-            {pathname.startsWith("/director") && (
-              <div className="bg-accent z-10 size-2 rounded-full"></div>
-            )}
-          </div>
-        </Link>
-        <Link
-          className={
-            "hover:text-accent font-bold" +
-            (pathname.startsWith("/editor")
-              ? " text-accent"
-              : " text-secondary")
-          }
-          href="/editor"
-        >
-          <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
-            <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
-              Editor
-            </div>
-            {pathname.startsWith("/editor") && (
-              <div className="bg-accent z-10 size-2 rounded-full"></div>
-            )}
-          </div>
-        </Link>
-        <Link
-          className={
-            "hover:text-accent font-bold" +
-            (pathname.startsWith("/mixtapes")
-              ? " text-accent"
-              : " text-secondary")
-          }
-          href="/mixtapes"
-        >
-          <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
-            <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
-              Mixtapes
-            </div>
-            {pathname.startsWith("/mixtapes") && (
-              <div className="bg-accent z-10 size-2 rounded-full"></div>
-            )}
-          </div>
-        </Link>
-        <Link
-          className={
-            "hover:text-accent font-bold" +
-            (pathname.startsWith("/fotos") ? " text-accent" : " text-secondary")
-          }
-          href="/fotos"
-        >
-          <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
-            <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
-              {language === "es" ? "Fotos" : "Photos"}
-            </div>
-            {pathname.startsWith("/fotos") && (
-              <div className="bg-accent z-10 size-2 rounded-full"></div>
-            )}
-          </div>
-        </Link>
-        <Link
-          className={
-            "hover:text-accent font-bold" +
-            (pathname.startsWith("/bio") ? " text-accent" : " text-secondary")
-          }
-          href="/bio"
-        >
-          <div className="flex flex-col items-center pb-1 sm:pb-0 md:flex-row md:gap-2">
-            <div className="bg-background shadow-border rounded-full px-1 leading-tight md:px-0">
-              Bio
-            </div>
-            {pathname.startsWith("/bio") && (
-              <div className="bg-accent z-10 size-2 rounded-full"></div>
-            )}
-          </div>
-        </Link>
+          </Link>
+        ))}
       </ul>
     </nav>
   )
