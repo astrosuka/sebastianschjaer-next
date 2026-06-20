@@ -25,9 +25,30 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Sebastián Schjaer",
+  metadataBase: new URL("https://sebastianschjaer.vercel.app"),
+  title: {
+    default: "Sebastián Schjaer",
+    template: "%s | Sebastián Schjaer",
+  },
   description:
     "Sebastián Schjaer is a director and editor graduated from the Universidad del Cine (FUC). He has worked as a teacher at the Universidad de Buenos Aires, Universidad Nacional Tres de Febrero and Universidad del Cine. He has published articles in specialized books and magazines.",
+  openGraph: {
+    type: "website",
+    siteName: "Sebastián Schjaer",
+    locale: "es_AR",
+    url: "https://sebastianschjaer.com",
+    images: [
+      {
+        url: "https://cdn.sanity.io/images/d205va9w/production/488db5b9f245665fd31b87b8e2d70db6a712aa88-1280x1280.jpg",
+        width: 1280,
+        height: 1280,
+        alt: "Sebastián Schjaer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 }
 
 export default function RootLayout({
