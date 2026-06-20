@@ -8,9 +8,9 @@ export default async function Home() {
 
   return (
     <PageTransition>
-      <main className="h-full">
+      <section className="h-full">
         {info?.coverVideo && <VideoEmbed data={info?.coverVideo} />}
-      </main>
+      </section>
     </PageTransition>
   )
 }

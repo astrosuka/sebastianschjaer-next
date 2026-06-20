@@ -28,6 +28,7 @@ export default async function Contact() {
             <a
               href={`https://www.instagram.com/${info.instagram}/`}
               target="_blank"
+              rel="noopener noreferrer"
               className="border-text bg-background shadow-border hover:border-accent hover:bg-accent hover:text-background rounded-full border px-2 decoration-transparent"
             >
               @{info.instagram}

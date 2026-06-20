@@ -12,7 +12,7 @@ export default async function Director() {
   const data = await client.fetch(DIRECTOR_QUERY)
   return (
     <PageTransition>
-      <DirectorList data={data} />{" "}
+      <DirectorList data={data} />
     </PageTransition>
   )
 }

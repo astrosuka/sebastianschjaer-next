@@ -5,7 +5,7 @@ import { client } from "@/sanity/client"
 import { PHOTOS_QUERY } from "@/sanity/queries"
 
 export const metadata: Metadata = {
-  title: "Fotos",
+  title: "Photos",
 }
 
 export default async function Fotos() {
@@ -13,7 +13,7 @@ export default async function Fotos() {
 
   return (
     <PageTransition>
-      <ImageGallery data={data} />{" "}
+      <ImageGallery data={data} />
     </PageTransition>
   )
 }
