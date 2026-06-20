@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react"
 import { useLanguage } from "@/context/LanguageContext"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import type { SanityImageDimensions } from "@/sanity/types"
 import { urlFor } from "@/sanity/lib/image"
 import useMousePosition from "@/hooks/useMousePosition"
@@ -31,21 +31,41 @@ export default function Lightbox({
   const mousePosition = useMousePosition()
   const [cursorIcon, setCursorIcon] = useState("")
 
+  const dialogRef = useRef<HTMLDivElement>(null)
   const currentPhoto = photos[index]
 
-  const handleChangeImage = (direction: "prev" | "next") => {
-    const img = wrapperRef.current?.querySelector("img")
-    if (img) {
-      img.style.opacity = "0"
-    }
+  const handleChangeImage = useCallback(
+    (direction: "prev" | "next") => {
+      const img = wrapperRef.current?.querySelector("img")
+      if (img) {
+        img.style.opacity = "0"
+      }
 
-    const newIndex =
-      direction === "next"
-        ? (index + 1) % photos.length
-        : (index - 1 + photos.length) % photos.length
+      const newIndex =
+        direction === "next"
+          ? (index + 1) % photos.length
+          : (index - 1 + photos.length) % photos.length
 
-    setIndex(newIndex)
-  }
+      setIndex(newIndex)
+    },
+    [index, photos.length]
+  )
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose()
+      if (singleImage) return
+      if (e.key === "ArrowRight") handleChangeImage("next")
+      if (e.key === "ArrowLeft") handleChangeImage("prev")
+    },
+    [handleChangeImage, onClose, singleImage]
+  )
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown)
+    dialogRef.current?.focus()
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [handleKeyDown])
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.style.opacity = "1"
@@ -59,7 +79,14 @@ export default function Lightbox({
   }
 
   return (
-    <div className="no-doc-scroll bg-background fixed top-0 left-0 z-10 flex h-screen w-full items-center justify-center select-none">
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={language === "es" ? "Visor de imágenes" : "Image viewer"}
+      tabIndex={-1}
+      className="no-doc-scroll bg-background fixed top-0 left-0 z-10 flex h-screen w-full items-center justify-center select-none"
+    >
       <div
         ref={wrapperRef}
         style={{
@@ -71,7 +98,7 @@ export default function Lightbox({
       >
         <img
           src={urlFor(currentPhoto).height(1500).format("webp").url()}
-          alt=""
+          alt={`Photo ${index + 1}`}
           className="max-h-[calc(100vh-1.5rem)] max-w-[100vw] cursor-pointer"
           style={{
             opacity: "0",
@@ -83,26 +110,30 @@ export default function Lightbox({
       </div>
       {!singleImage && (
         <div className="fixed top-0 left-0 grid h-screen w-full grid-cols-3 justify-between">
-          <div
+          <button
             onClick={() => handleChangeImage("prev")}
             onMouseEnter={() => setCursorIcon("arrow-back.svg")}
+            aria-label={language === "es" ? "Imagen anterior" : "Previous image"}
             className="h-full cursor-pointer"
-          ></div>
-          <div
+          />
+          <button
             onClick={onClose}
             onMouseEnter={() => setCursorIcon("close.svg")}
+            aria-label={language === "es" ? "Cerrar" : "Close"}
             className="h-full cursor-pointer"
-          ></div>
-          <div
+          />
+          <button
             onClick={() => handleChangeImage("next")}
             onMouseEnter={() => setCursorIcon("arrow-forward.svg")}
+            aria-label={language === "es" ? "Siguiente imagen" : "Next image"}
             className="h-full cursor-pointer"
-          ></div>
+          />
         </div>
       )}
       <button
         onClick={onClose}
         onMouseEnter={() => setCursorIcon("close.svg")}
+        aria-label={language === "es" ? "Cerrar" : "Close"}
         className="font-display hover:text-accent fixed top-0 right-0 z-10 cursor-pointer px-4 py-2"
       >
         {language === "es" ? "CERRAR" : "CLOSE"}

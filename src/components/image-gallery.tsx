@@ -30,7 +30,7 @@ export default function ImageGallery({ data }: ImageGalleryProps) {
           >
             <Image
               src={urlFor(item).height(500).format("webp").url()}
-              alt=""
+              alt={`Photo ${index + 1}`}
               width={item.dimensions?.width ?? 500}
               height={item.dimensions?.height ?? 500}
               className="h-auto w-full cursor-pointer"
