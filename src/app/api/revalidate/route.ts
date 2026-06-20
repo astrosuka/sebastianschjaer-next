@@ -1,11 +1,9 @@
 import { revalidatePath } from "next/cache"
 import { NextRequest, NextResponse } from "next/server"
 
-const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET
-
 export async function POST(request: NextRequest) {
-  const secret = request.nextUrl.searchParams.get("secret")
-  if (secret !== SANITY_WEBHOOK_SECRET) {
+  const signature = request.headers.get("sanity-webhook-signature")
+  if (signature !== process.env.SANITY_WEBHOOK_SECRET) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 })
   }
 
