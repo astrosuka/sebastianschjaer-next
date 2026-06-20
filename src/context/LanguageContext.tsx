@@ -18,7 +18,7 @@ type LanguageProviderProps = {
   children: ReactNode
 }
 const LanguageProvider = ({ children }: LanguageProviderProps) => {
-  const [language, setLanguage] = useState<Language>("es")
+  const [language, setLanguage] = useState<Language>("en")
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
       {children}
